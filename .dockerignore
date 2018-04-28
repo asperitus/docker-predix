@@ -1,12 +1,7 @@
 #
-,git
 .gitignore
-local
-node_modules
-temp
 #
 build.sh
-client.sh
-docker.sh
-
+docker-compose.yml
 README.md
+run.sh

@@ -1,6 +1,8 @@
 #
+.env
 .gitignore
 #
+bash_env.sh
 build.sh
 docker-compose.yml
 README.md

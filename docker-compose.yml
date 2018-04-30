@@ -6,6 +6,8 @@ services:
     container_name: predix-dev
     command: tail -f /dev/null
     env_file: bash_env.sh
+    ports:
+      - "58080:8080"
     volumes:
       - "${WORK_ROOT}:/work"
     depends_on:
@@ -51,7 +53,9 @@ services:
     volumes:
       - "blob-data:/data"
     networks:
-      - predix-net
+      predix-net:
+        aliases:
+          - bucket.predix-blobstore
 
 volumes:
   redis-data:

@@ -76,6 +76,10 @@ RUN curl --insecure -L "https://cli.run.pivotal.io/stable?release=linux64-binary
 #R runtime
 RUN git clone https://github.com/asperitus/R.git /opt/R
 
+#Node 6.10.0
+RUN npm install -g  n \
+    && n 6.10.0
+
 #
 RUN apt-get clean \
     && rm -rf \
@@ -90,7 +94,8 @@ RUN apt-get clean \
 RUN useradd -m -b /home -s /bin/bash vcap \
     && echo "$LOGIN ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers \
     && mkdir -p /home/vcap/app \
-    && chown vcap:vcap /home/vcap/app \
+    && mkdir -p /home/vcap/tmp \
+    && chown -R vcap:vcap /home/vcap \
     && ln -s /home/vcap/app /app
 
 #R

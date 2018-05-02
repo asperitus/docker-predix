@@ -80,6 +80,12 @@ RUN git clone https://github.com/asperitus/R.git /opt/R
 RUN npm install -g  n \
     && n 6.10.0
 
+#Tini
+#https://github.com/docker/docker.github.io/issues/3149
+ENV TINI_VERSION v0.18.0
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
+RUN chmod +x /tini
+
 #
 RUN apt-get clean \
     && rm -rf \
@@ -89,6 +95,10 @@ RUN apt-get clean \
         /usr/share/man \
         /usr/share/doc \
         /usr/share/doc-base
+
+##
+RUN echo "echo never > /sys/kernel/mm/transparent_hugepage/enabled" > /etc/rc.local \
+    && chmod a+x /etc/rc.local
 
 #user
 RUN useradd -m -b /home -s /bin/bash vcap \

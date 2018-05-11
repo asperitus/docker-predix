@@ -140,5 +140,7 @@ PATH=/work/bin:/app/bin:/usr/local/go/bin:/app/vendor/R/bin:/usr/local/sbin:/usr
 ##
 #proxy
 no_proxy=*.predix-dev,*.predix-cache,*.predix-postgres,*.predix-blobstore,localhost,*.local,127.0.0.1
-##
+#
 
+BASE=/work/src/github.build.ge.com/aviation-dss
+##

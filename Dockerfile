@@ -25,11 +25,13 @@ RUN apt-get update && apt-get -y install \
     libxpm4 \
     libxrender1 \
     git \
+    psmisc \
     unzip \
     wget \
     x11-apps \
     xfonts-cyrillic xfonts-100dpi xfonts-75dpi xfonts-base xfonts-scalable \
-    xvfb
+    xvfb \
+    zip
 
 ####
 
@@ -56,8 +58,9 @@ RUN echo "deb http://deb.nodesource.com/node_6.x $(lsb_release -sc) main" >> /et
     && apt-get install -y --no-install-recommends \
         nodejs
 
-RUN npm install --unsafe-perm -g \
+RUN npm install --prefix /usr/local --unsafe-perm -g \
     protractor \
+    protractor-flake \
     \
     child_process \
     express \
@@ -85,6 +88,18 @@ RUN npm install -g  n \
 ENV TINI_VERSION v0.18.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 RUN chmod +x /tini
+
+#additional
+RUN apt-get update && apt-get -y install \
+    sshpass
+
+#sshd
+RUN apt-get update && apt-get install -y openssh-server \
+    && mkdir /var/run/sshd \
+    && echo 'root:nosecret' | chpasswd \
+    && sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config \
+    # SSH login fix. Otherwise user is kicked off after login
+    && sed -i 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' /etc/pam.d/sshd
 
 #
 RUN apt-get clean \
